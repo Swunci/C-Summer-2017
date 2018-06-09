@@ -1,20 +1,9 @@
-/*
-Make a two player tic tac toe game.
-
-Modify the program so that it will announce when a player has won the game(and which player won, x or o)
-
-Modify the program so that it is a one player game against the computer(with the computer making its moves randomly)
-
-Modify the program so that anytime the player is about to win(aka, they have 2 of 3 x's in a row, the computer will block w/ an o)
-
-Modify the program so that the game always result in a tie
-*/
-
 #include <cstdlib>
 #include <ctime>
 #include <string>
 #include <iostream>
 
+// prints the specified board out to console
 void printBoard(std::string board[5][5]) {
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
@@ -24,24 +13,35 @@ void printBoard(std::string board[5][5]) {
 	}
 }
 
+// checks the specified board for 3 X's or 3 O's in a row
 bool checkForWinner(std::string board[5][5]) {
-	if ((board[0][0] == board[0][2] && board[0][2] == board[0][4]) && (board[0][2] == " X " || board[0][2] == " O ")) {
+	if ((board[0][0] == board[0][2] && board[0][2] == board[0][4]) && 
+	    (board[0][2] == " X " || board[0][2] == " O ")) {
 		return true;
 	}
-	else if ((board[2][0] == board[2][2] && board[2][2] == board[2][4]) && (board[2][2] == " X " || board[2][2] == " O ")) {
+	else if ((board[2][0] == board[2][2] && board[2][2] == board[2][4]) && 
+		 (board[2][2] == " X " || board[2][2] == " O ")) {
 		return true;
 	}
-	else if ((board[4][0] == board[4][2] && board[4][2] == board[4][4]) && (board[4][2] == " X " || board[4][2] == " O ")) {
+	else if ((board[4][0] == board[4][2] && board[4][2] == board[4][4]) && 
+		 (board[4][2] == " X " || board[4][2] == " O ")) {
 		return true;
 	}
-	else if ((board[0][0] == board[2][0] && board[2][0] == board[4][0]) && (board[2][0] == " X " || board[2][0] == " O ")) {
+	else if ((board[0][0] == board[2][0] && board[2][0] == board[4][0]) && 
+		 (board[2][0] == " X " || board[2][0] == " O ")) {
 		return true;
 	}
-	else if ((board[0][2] == board[2][2] && board[2][2] == board[4][2]) && (board[2][2] == " X " || board[2][2] == " O ")) {
+	else if ((board[0][2] == board[2][2] && board[2][2] == board[4][2]) && 
+		 (board[2][2] == " X " || board[2][2] == " O ")) {
+		return true;
 	}
-	else if ((board[0][4] == board[2][4] && board[2][4] == board[4][4]) && (board[2][4] == " X " || board[2][4] == " O ")) {
+	else if ((board[0][4] == board[2][4] && board[2][4] == board[4][4]) && 
+		 (board[2][4] == " X " || board[2][4] == " O ")) {
+		return true;
 	}
-	else if (((board[0][0] == board[2][2] && board[2][2] == board[4][4]) || (board[4][0] == board[2][2] && board[2][2] == board[0][4])) && (board[2][2] == " X " || board[2][2] == " O ")) {
+	else if (((board[0][0] == board[2][2] && board[2][2] == board[4][4]) || 
+		  (board[4][0] == board[2][2] && board[2][2] == board[0][4])) && 
+		  (board[2][2] == " X " || board[2][2] == " O ")) {
 		return true;
 	}
 	else {
@@ -49,6 +49,7 @@ bool checkForWinner(std::string board[5][5]) {
 	}
 }
 
+// Asks the user to input the row number they wish to place their X or O
 int rowNum(std::string board[5][5]) {
 	std::string input;
 	int row;
@@ -75,6 +76,7 @@ int rowNum(std::string board[5][5]) {
 	return row;
 }
 
+// Asks the user to input the column number they wish to place their X or O
 int columnNum(std::string board[5][5]) {
 	std::string input;
 	int column;
@@ -101,43 +103,64 @@ int columnNum(std::string board[5][5]) {
 	return column;
 }
 
+// Checks for any potential 3 X's in a row so that the computer's next move would be to block it with a O
 bool checkForTwoX(int position[2], std::string board[5][5]) {
-	if (board[0][0] == "  " && ((board[0][2] == " X " && board[0][4] == " X ") || (board[2][0] == " X " && board[4][0] == " X ") || (board[2][2] == " X " && board[4][4] == " X "))) {
+	if (board[0][0] == "   " && ((board[0][2] == " X " && board[0][4] == " X ") || 
+				    (board[2][0] == " X " && board[4][0] == " X ") || 
+				    (board[2][2] == " X " && board[4][4] == " X "))) 
+	{
 		position[0] = 0;
 		position[1] = 0;
 		return true;
 	}
-	else if (board[0][2] == "   " && ((board[0][0] == " X " && board[0][4] == " X ") || (board[2][2] == " X " && board[4][2] == " X "))) {
+	else if (board[0][2] == "   " && ((board[0][0] == " X " && board[0][4] == " X ") || 
+					  (board[2][2] == " X " && board[4][2] == " X "))) 
+	{
 		position[0] = 0;
 		position[1] = 2;
 		return true;
 	}
-	else if (board[0][4] == "   " && ((board[0][0] == " X " && board[0][2] == " X ") || (board[2][4] == " X " && board[4][4] == " X ") || (board[4][0] == " X " && board[2][2] == " X "))) {
+	else if (board[0][4] == "   " && ((board[0][0] == " X " && board[0][2] == " X ") || 
+					  (board[2][4] == " X " && board[4][4] == " X ") || 
+					  (board[4][0] == " X " && board[2][2] == " X "))) 
+	{
 		position[0] = 0;
 		position[1] = 4;
 		return true;
 	}
-	else if (board[2][0] == "   " && ((board[0][0] == " X " && board[4][0] == " X ") || (board[2][2] == " X " && board[2][4] == " X "))) {
+	else if (board[2][0] == "   " && ((board[0][0] == " X " && board[4][0] == " X ") || 
+					  (board[2][2] == " X " && board[2][4] == " X "))) 
+	{
 		position[0] = 2;
 		position[1] = 0;
 		return true;
 	}
-	else if (board[2][4] == "   " && ((board[2][0] == " X " && board[2][2] == " X ") || (board[0][4] == " X " && board[4][4] == " X "))) {
+	else if (board[2][4] == "   " && ((board[2][0] == " X " && board[2][2] == " X ") || 
+					  (board[0][4] == " X " && board[4][4] == " X "))) 
+	{
 		position[0] = 2;
 		position[1] = 4;
 		return true;
 	}
-	else if (board[4][0] == "   " && ((board[0][0] == " X " && board[2][0] == " X ") || (board[4][2] == " X " && board[4][4] == " X ") || (board[2][2] == " X " && board[0][4] == " X "))) {
+	else if (board[4][0] == "   " && ((board[0][0] == " X " && board[2][0] == " X ") || 
+					  (board[4][2] == " X " && board[4][4] == " X ") || 
+					  (board[2][2] == " X " && board[0][4] == " X "))) 
+	{
 		position[0] = 4;
 		position[1] = 0;
 		return true;
 	}
-	else if (board[4][2] == "   " && ((board[4][0] == " X " && board[4][4] == " X ") || (board[0][2] == " X " && board[2][2] == " X "))) {
+	else if (board[4][2] == "   " && ((board[4][0] == " X " && board[4][4] == " X ") || 
+					  (board[0][2] == " X " && board[2][2] == " X "))) 
+	{
 		position[0] = 4;
 		position[1] = 2;
 		return true;
 	}
-	else if (board[4][4] == "   " && ((board[4][0] == " X " && board[4][2] == " X ") || (board[0][4] == " X " && board[2][4] == " X ") || (board[0][0] == " X " && board[2][2] == " X "))) {
+	else if (board[4][4] == "   " && ((board[4][0] == " X " && board[4][2] == " X ") || 
+					  (board[0][4] == " X " && board[2][4] == " X ") || 
+					  (board[0][0] == " X " && board[2][2] == " X "))) 
+	{
 		position[0] = 4;
 		position[1] = 4;
 		return true;
@@ -147,43 +170,56 @@ bool checkForTwoX(int position[2], std::string board[5][5]) {
 	}
 }
 
+// Checks for any potential 3 O's in a row so that the computer's next move would win the game
 bool checkForTwoO(int position[2], std::string board[5][5]) {
-	if (board[0][0] == "  " && ((board[0][2] == " O " && board[0][4] == " O ") || (board[2][0] == " O " && board[4][0] == " O ") || (board[2][2] == " O " && board[4][4] == " O "))) {
+	if (board[0][0] == "   " && ((board[0][2] == " O " && board[0][4] == " O ") || 
+				    (board[2][0] == " O " && board[4][0] == " O ") || 
+				    (board[2][2] == " O " && board[4][4] == " O "))) {
 		position[0] = 0;
 		position[1] = 0;
 		return true;
 	}
-	else if (board[0][2] == "   " && ((board[0][0] == " O " && board[0][4] == " O ") || (board[2][2] == " O " && board[4][2] == " O "))) {
+	else if (board[0][2] == "   " && ((board[0][0] == " O " && board[0][4] == " O ") || 
+					  (board[2][2] == " O " && board[4][2] == " O "))) {
 		position[0] = 0;
 		position[1] = 2;
 		return true;
 	}
-	else if (board[0][4] == "   " && ((board[0][0] == " O " && board[0][2] == " O ") || (board[2][4] == " O " && board[4][4] == " O ") || (board[4][0] == " O " && board[2][2] == " O "))) {
+	else if (board[0][4] == "   " && ((board[0][0] == " O " && board[0][2] == " O ") || 
+					  (board[2][4] == " O " && board[4][4] == " O ") || 
+					  (board[4][0] == " O " && board[2][2] == " O "))) {
 		position[0] = 0;
 		position[1] = 4;
 		return true;
 	}
-	else if (board[2][0] == "   " && ((board[0][0] == " O " && board[4][4] == " O ") || (board[2][2] == " O " && board[2][4] == " O "))) {
+	else if (board[2][0] == "   " && ((board[0][0] == " O " && board[4][0] == " O ") || 
+					  (board[2][2] == " O " && board[2][4] == " O "))) {
 		position[0] = 2;
 		position[1] = 0;
 		return true;
 	}
-	else if (board[2][4] == "   " && ((board[2][0] == " O " && board[2][2] == " O ") || (board[0][4] == " O " && board[4][4] == " O "))) {
+	else if (board[2][4] == "   " && ((board[2][0] == " O " && board[2][2] == " O ") || 
+					  (board[0][4] == " O " && board[4][4] == " O "))) {
 		position[0] = 2;
 		position[1] = 4;
 		return true;
 	}
-	else if (board[4][0] == "   " && ((board[0][0] == " O " && board[2][0] == " O ") || (board[4][2] == " O " && board[4][4] == " O ") || (board[2][2] == " O " && board[0][4] == " O "))) {
+	else if (board[4][0] == "   " && ((board[0][0] == " O " && board[2][0] == " O ") || 
+					  (board[4][2] == " O " && board[4][4] == " O ") || 
+					  (board[2][2] == " O " && board[0][4] == " O "))) {
 		position[0] = 4;
 		position[1] = 0;
 		return true;
 	}
-	else if (board[4][2] == "   " && ((board[4][0] == " O " && board[4][4] == " O ") || (board[0][2] == " O " && board[2][2] == " O "))) {
+	else if (board[4][2] == "   " && ((board[4][0] == " O " && board[4][4] == " O ") || 
+					  (board[0][2] == " O " && board[2][2] == " O "))) {
 		position[0] = 4;
 		position[1] = 2;
 		return true;
 	}
-	else if (board[4][4] == "   " && ((board[4][0] == " X " && board[4][2] == " X ") || (board[0][4] == " X " && board[2][4] == " X ") || (board[0][0] == " X " && board[2][2] == " X "))) {
+	else if (board[4][4] == "   " && ((board[4][0] == " X " && board[4][2] == " X ") || 
+					  (board[0][4] == " X " && board[2][4] == " X ") || 
+					  (board[0][0] == " X " && board[2][2] == " X "))) {
 		position[0] = 4;
 		position[1] = 4;
 		return true;
@@ -194,10 +230,11 @@ bool checkForTwoO(int position[2], std::string board[5][5]) {
 }
 
 int main() {
-
+	
+	// game loop
 	bool play = true;
 	while (play == true) {
-
+		
 		srand(time(NULL));
 		std::string choice;
 		bool isValidChoice = false;
@@ -210,7 +247,7 @@ int main() {
 		bool player2Turn;
 		bool computerTurn;
 		std::string board[5][5] = {
-			{ "   ", "|", "   ", "|", "   " },
+		{ "   ", "|", "   ", "|", "   " },
 		{ "---", "+", "---", "+", "---" },
 		{ "   ", "|", "   ", "|", "   " },
 		{ "---", "+", "---", "+", "---" },
@@ -219,6 +256,8 @@ int main() {
 		std::cout << "Tic Tac Toe\n";
 		std::cout << "Enter 1 for player vs player or enter 2 for player vs computer: ";
 		getline(std::cin, choice);
+		
+		// Ask user for input until valid choice is inputted
 		do {
 			if (choice == "1") {
 				pvp = true;
@@ -239,7 +278,7 @@ int main() {
 		} while (isValidChoice == false);
 
 		printBoard(board);
-
+		
 		// Player vs Player
 		while (pvp == true) {
 			turnCounter++;
@@ -247,8 +286,11 @@ int main() {
 				std::cout << "Tie.\n";
 				pvp = false;
 			}
+			
+			// Player 1's turn
 			else if (player1Turn == true) {
 				bool validMove = false;
+				// Ask for user to input a valid row and column 
 				do {
 					row = rowNum(board);
 					column = columnNum(board);
@@ -268,8 +310,10 @@ int main() {
 					}
 				} while (validMove == false);
 			}
+			// Player 2's turn
 			else if (player2Turn == true) {
 				bool validMove = false;
+				// Ask for user to input a valid row and column 
 				do {
 					row = rowNum(board);
 					column = columnNum(board);
@@ -392,122 +436,21 @@ int main() {
 				int columnIndex;
 				bool validMove = false;
 				do {
-					if (board[2][2] == "   ") {
-						board[2][2] = " O ";
-						std::cout << "Row: 2\nColumn: 2\n";
-						printBoard(board);
-						validMove = true;
-						computerTurn = false;
-						player1Turn = true;
-					}
-					else if (turnCounter == 2) {
-						int corner = rand() % 4;
-						if (corner == 0) {
-							board[0][0] = " O ";
-							std::cout << "Row: 1\nColumn: 1\n";
+					// Computer's first turn
+					if (turnCounter == 2) {
+						// Computer will always place O in the middle first if it is available
+						if (board[2][2] == "   ") {
+							board[2][2] = " O ";
+							std::cout << "Row: 2\nColumn: 2\n";
 							printBoard(board);
 							validMove = true;
 							computerTurn = false;
 							player1Turn = true;
 						}
-						else if (corner == 1) {
-							board[0][4] = " O ";
-							std::cout << "Row: 1\nColumn: 3\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
-						else if (corner == 2) {
-							board[4][0] = " O ";
-							std::cout << "Row: 3\nColumn: 1\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
+						// Else it will place a O in a random corner
 						else {
-							board[4][4] = " O ";
-							std::cout << "Row: 3\nColumn: 3\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
-					}
-					else if (turnCounter == 4) {
-						if (board[0][0] == "   " && ((board[0][2] == " X " && (board[2][0] == " X " || board[4][0] == " X ")) || (board[0][4] == " X " && board[2][0] == " X "))) {
-							board[0][0] = " O ";
-							std::cout << "Row: 1\nColumn: 1\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
-						else if (board[0][4] == "   " && ((board[0][2] == " X " && (board[2][4] == " X " || board[4][4] == " X ")) || (board[0][0] == " X " && board[2][4] == " X "))) {
-							board[0][4] = " O ";
-							std::cout << "Row: 1\nColumn: 3\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
-						else if (board[4][0] == "   " && ((board[2][0] == " X " && (board[4][2] == " X " || board[4][4] == " X ")) || (board[0][0] == " X " && board[4][2] == " X "))) {
-							board[4][0] = " O ";
-							std::cout << "Row: 3\nColumn: 1\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
-						else if (board[4][4] == "   " && ((board[4][2] == " X " && (board[2][4] == " X " || board[0][4] == " X ")) || (board[4][0] == " X " && board[2][4] == " X "))) {
-							board[4][4] = " O ";
-							std::cout << "Row: 3\nColumn: 3\n";
-							printBoard(board);
-							validMove = true;
-							computerTurn = false;
-							player1Turn = true;
-						}
-						else {
-							if (checkForTwoX(position, board)) {
-								board[position[0]][position[1]] = " O ";
-								if (position[0] == 0) {
-									row = 1;
-								}
-								else if (position[0] == 2) {
-									row = 2;
-								}
-								else if (position[0] == 4) {
-									row = 3;
-								}
-								if (position[1] == 0) {
-									column = 1;
-								}
-								else if (position[1] == 2) {
-									column = 2;
-								}
-								else if (position[1] == 4) {
-									column = 3;
-								}
-								std::cout << "Row: " << row << "\nColumn: " << column << "\n";
-								printBoard(board);
-								validMove = true;
-								computerTurn = false;
-								player1Turn = true;
-								if (checkForWinner(board)) {
-									pvc = false;
-									std::cout << "Computer wins.\n";
-								}
-							}
-							else if (board[0][4] == "   ") {
-								board[0][4] = " O ";
-								std::cout << "Row: 1\nColumn: 3\n";
-								printBoard(board);
-								validMove = true;
-								computerTurn = false;
-								player1Turn = true;
-							}
-							else if (board[0][0] == "   ") {
+							int corner = rand() % 4;
+							if (corner == 0) {
 								board[0][0] = " O ";
 								std::cout << "Row: 1\nColumn: 1\n";
 								printBoard(board);
@@ -515,7 +458,15 @@ int main() {
 								computerTurn = false;
 								player1Turn = true;
 							}
-							else if (board[4][0] == "   ") {
+							else if (corner == 1) {
+								board[0][4] = " O ";
+								std::cout << "Row: 1\nColumn: 3\n";
+								printBoard(board);
+								validMove = true;
+								computerTurn = false;
+								player1Turn = true;
+							}
+							else if (corner == 2) {
 								board[4][0] = " O ";
 								std::cout << "Row: 3\nColumn: 1\n";
 								printBoard(board);
@@ -523,7 +474,7 @@ int main() {
 								computerTurn = false;
 								player1Turn = true;
 							}
-							else if (board[4][4] == "   ") {
+							else {
 								board[4][4] = " O ";
 								std::cout << "Row: 3\nColumn: 3\n";
 								printBoard(board);
@@ -533,7 +484,9 @@ int main() {
 							}
 						}
 					}
-					else {
+					// Computer's turns after the first
+					else {	
+						// Check for if the computer can win this turn
 						if (checkForTwoO(position, board)) {
 							board[position[0]][position[1]] = " O ";
 							if (position[0] == 0) {
@@ -564,6 +517,7 @@ int main() {
 								std::cout << "Computer wins.\n";
 							}
 						}
+						// Else check if the player is about to win and if they are, block it with an O
 						else if (checkForTwoX(position, board)) {
 							board[position[0]][position[1]] = " O ";
 							if (position[0] == 0) {
@@ -594,38 +548,94 @@ int main() {
 								std::cout << "Computer wins.\n";
 							}
 						}
+						// If neither side can win, just randomly place an O in a corner if possible
 						else {
-							row = rand() % 3 + 1;
-							column = rand() % 3 + 1;
+							bool emptyCorner = false;
+							if (board[0][0] == "   " ||
+							    board[0][4] == "   " ||
+							    board[4][0] == "   " ||
+							    board[4][4] == "   ") 
+							{
+								emptyCorner = true;
+							}
+							// If there are any empty corners, place it randomly in one of them
+							if (emptyCorner) {
+								bool validCorner = false;
+								do {
+									int corner = rand() % 4;
+									if (corner == 0 && board[0][0] == "   ") {
+										board[0][0] = " O ";
+										std::cout << "Row: 1\nColumn: 1\n";
+										printBoard(board);
+										validMove = true;
+										computerTurn = false;
+										player1Turn = true;
+										validCorner = true;
+									}
+									else if (corner == 1 && board[0][4] == "   ") {
+										board[0][4] = " O ";
+										std::cout << "Row: 1\nColumn: 3\n";
+										printBoard(board);
+										validMove = true;
+										computerTurn = false;
+										player1Turn = true;
+										validCorner = true;
+									}
+									else if (corner == 2 && board[4][0] == "   ") {
+										board[4][0] = " O ";
+										std::cout << "Row: 3\nColumn: 1\n";
+										printBoard(board);
+										validMove = true;
+										computerTurn = false;
+										player1Turn = true;
+										validCorner = true;
+									}
+									else if (corner == 3 && board[4][4] == "   ") {
+										board[4][4] = " O ";
+										std::cout << "Row: 3\nColumn: 3\n";
+										printBoard(board);
+										validMove = true;
+										computerTurn = false;
+										player1Turn = true;
+										validCorner = true;
+									}
+								} while (validCorner == false);
+							}
+							
+							// Else place the O randomly somewhere
+							else {
+								row = rand() % 3 + 1;
+								column = rand() % 3 + 1;
 
-							if (row == 1) {
-								rowIndex = 0;
-							}
-							else if (row == 2) {
-								rowIndex = 2;
-							}
-							else if (row == 3) {
-								rowIndex = 4;
-							}
-							if (column == 1) {
-								columnIndex = 0;
-							}
-							else if (column == 2) {
-								columnIndex = 2;
-							}
-							else if (column == 3) {
-								columnIndex = 4;
-							}
-							if (board[rowIndex][columnIndex] == "   ") {
-								board[rowIndex][columnIndex] = " O ";
-								std::cout << "Row: " << row << "\nColumn: " << column << "\n";
-								printBoard(board);
-								validMove = true;
-								computerTurn = false;
-								player1Turn = true;
-								if (checkForWinner(board)) {
-									pvc = false;
-									std::cout << "Computer wins.\n";
+								if (row == 1) {
+									rowIndex = 0;
+								}
+								else if (row == 2) {
+									rowIndex = 2;
+								}
+								else if (row == 3) {
+									rowIndex = 4;
+								}
+								if (column == 1) {
+									columnIndex = 0;
+								}
+								else if (column == 2) {
+									columnIndex = 2;
+								}
+								else if (column == 3) {
+									columnIndex = 4;
+								}
+								if (board[rowIndex][columnIndex] == "   ") {
+									board[rowIndex][columnIndex] = " O ";
+									std::cout << "Row: " << row << "\nColumn: " << column << "\n";
+									printBoard(board);
+									validMove = true;
+									computerTurn = false;
+									player1Turn = true;
+									if (checkForWinner(board)) {
+										pvc = false;
+										std::cout << "Computer wins.\n";
+									}
 								}
 							}
 						}
