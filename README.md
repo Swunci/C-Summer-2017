@@ -1,6 +1,6 @@
-# Summer-2017-cpp
-I learned some basic java skills in first year of college and decided to apply basic concepts learned in java using cpp to create a tic 
-tac toe game. I started off doing basic cpp exercises intended for beginners until I felt comfortable enough with the language to make a 
+# Summer-2017-TicTacToe
+I learned some basic java skills in first year of college and decided to apply basic concepts learned in java using C++ to create a tic 
+tac toe game. I started off doing basic c++ exercises intended for beginners until I felt comfortable enough with the language to make a 
 tic tac toe game.
 
 The tic tac toe game is played using the console so it isn't anything fancy. It just prints out a board onto the console and each time a 
